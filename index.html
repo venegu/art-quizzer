@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Art Quizzer</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <style>
+
+      .content {
+        width: 800px;
+        height: 600px;
+        background-color: white;
+        border-style: solid;
+
+        position:absolute; /*it can be fixed too*/
+        left:0; right:0;
+        top:0; bottom:0;
+        margin:auto;
+
+        /*this to solve "the content will not be cut when the window is smaller than the content": */
+        max-width:100%;
+        max-height:100%;
+        overflow:auto;
+
+        font-family: 'Lato', sans-serif;
+      }
+
+      .img {
+        width: 800px;
+        height: 450px;
+        left:0; right:0;
+        margin:auto;
+      }
+
+      .author {
+        text-align: center;
+      }
+
+      .piece {
+        text-align: center;
+      }
+
+      .date {
+        text-align: center;
+      }
+
+      .tracker {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='tracker'></div>
+    <div class='content'>
+
+      <!-- Image -->
+      <div class='img'></div>
+
+      <!-- Author -->
+      <div class='author'></div>
+
+      <!-- Piece Name -->
+      <div class='piece'></div>
+
+      <!-- Date -->
+      <div class='date'></div>
+
+    </div>
+  </body>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+  <script type='text/javascript'>
+    $( document ).ready(function() {
+      var data = [
+        {
+          'img': '../img/2.png',
+          'author': 'Jacques Louis David',
+          'piece': 'The Oath of the Horatii',
+          'date': 1784
+        },
+        {
+          'img': '../img/3.png',
+          'author': 'Jacques Louis David',
+          'piece': 'The Death of Marat',
+          'date': 1793
+        },
+        {
+          'img': '../img/4.png',
+          'author': 'Jean Chalgrin and others',
+          'piece': 'Arc de Triomphe, Paris',
+          'date': '1806–1836'
+        },
+        {
+          'img': '../img/5.png',
+          'author': 'Eugene Delacroix',
+          'piece': 'Liberty Leading the People',
+          'date': 1830
+        },
+        {
+          'img': '../img/6.png',
+          'author': 'JMW Turner',
+          'piece': 'The Slave Ship (Slavers Throwing Overboard the Sick and Dying)',
+          'date': 1840
+        },
+        {
+          'img': '../img/7.png',
+          'author': 'Theodore Gericault',
+          'piece': 'The Raft of the Medusa',
+          'date': '1818–1819'
+        },
+        {
+          'img': '../img/8.png',
+          'author': 'Thomas Cole',
+          'piece': 'The Oxbow',
+          'date': 1836
+        },
+        {
+          'img': '../img/9.png',
+          'author': 'Joseph Paxton',
+          'piece': 'Crystal Palace, London',
+          'date': '1851 World Exposition'
+        },
+        {
+          'img': '../img/10.png',
+          'author': 'Gustave Courbet',
+          'piece': 'A Burial at Ornan',
+          'date': '1849-1850'
+        },
+        {
+          'img': '../img/11.png',
+          'author': 'Gustave Courbet',
+          'piece': 'The Stonebreakers',
+          'date': 1849
+        },
+        {
+          'img': '../img/12.png',
+          'author': 'Jean Francois Millet',
+          'piece': 'The Gleaners',
+          'date': 1857
+        },
+        {
+          'img': '../img/13.png',
+          'author': 'Edouard Manet',
+          'piece': 'Dejeuner sur l\'herbe (Luncheon in the Grass)',
+          'date': 1863
+        },
+        {
+          'img': '../img/14.png',
+          'author': 'Edouard Manet',
+          'piece': 'Olympia',
+          'date': 1863
+        },
+        {
+          'img': '../img/15.png',
+          'author': 'Claude Monet',
+          'piece': 'Impression (Sunrise)',
+          'date': 1872
+        },
+        {
+          'img': '../img/16.png',
+          'author': 'Pierre Auguste Renoir',
+          'piece': 'Dance at La Moulin de la Galette',
+          'date': 1876
+        },
+        {
+          'img': '../img/17.png',
+          'author': 'Edouard Manet',
+          'piece': 'A Bar at Le Folies-Bergere',
+          'date': '1881–1882'
+        },
+        {
+          'img': '../img/18.png',
+          'author': 'Edgar Degas',
+          'piece': 'Ballerina and Lady with a Fan',
+          'date': 1853
+        },
+        {
+          'img': '../img/19.png',
+          'author': 'Georges Seurat',
+          'piece': 'A Sunday Afternoon on the Island of La Grand Jatte',
+          'date': '1884-1886'
+        },
+        {
+          'img': '../img/20.png',
+          'author': 'Auguste Rodin',
+          'piece': 'Monument to Balzac',
+          'date': '1891–1897'
+        },
+        {
+          'img': '../img/21.png',
+          'author': 'Paul Cezanne',
+          'piece': 'Mount Sainte-Victoire',
+          'date': '1885-1887'
+        },
+        {
+          'img': '../img/22.png',
+          'author': 'Paul Cezanne',
+          'piece': 'Still Life with Basket of Apples',
+          'date': 1893
+        }
+      ];
+
+      function shuffle(array) {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+
+          // Pick a remaining element...
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex -= 1;
+
+          // And swap it with the current element.
+          temporaryValue = array[currentIndex];
+          array[currentIndex] = array[randomIndex];
+          array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+      }
+
+      // Randomly shuffle array
+      data = shuffle(data);
+
+      var currentIndex = 0;
+
+      // Append image
+      $('.img').append("<img src=\"" + data[currentIndex].img + '"' + ' \"height=450\"' + ' \"width=800\">');
+
+      // Append Author
+      $('.author').append('<h2>' + 'Author: ' + data[currentIndex].author + '</h2>');
+
+      // Append Piece Name
+      $('.piece').append('<h2>' + 'Piece: ' + data[currentIndex].piece + '</h2>');
+
+      // Append Date 
+      $('.date').append('<h2>' + 'Date: ' + data[currentIndex].date.toString() + '</h2>');
+
+      // Append slide number
+      $('.tracker').append('<h1>' + Number(currentIndex + 1) + '/' + Number(data.length -1) + '</h1>');
+
+      $(document).keydown(function(e) {
+        // Left keypress
+        if (e.keyCode == 37) { 
+          if (currentIndex != 0) {
+            currentIndex -= 1;
+            $('.img').find(':first-child').remove();
+            $('.img').append("<img src=\"" + data[currentIndex].img + '"' + ' \"height=450\"' + ' \"width=800\">');
+
+            $('.author').find(':first-child').remove();
+            $('.author').append('<h2>' + 'Author: ' + data[currentIndex].author + '</h2>');
+
+            $('.piece').find(':first-child').remove();
+            $('.piece').append('<h2>' + 'Piece: ' + data[currentIndex].piece + '</h2>');
+
+            $('.date').find(':first-child').remove();
+            $('.date').append('<h2>' + 'Date: ' + data[currentIndex].date.toString() + '</h2>');
+            console.log('The current index: ', currentIndex);
+            $('.tracker').find(':first-child').remove();
+            $('.tracker').append('<h1>' + Number(currentIndex + 1) + '/' + Number(data.length) + '</h1>');
+          }
+        }
+
+        if (e.keyCode == 39) { 
+          if (currentIndex != 20) {
+            currentIndex += 1;
+            $('.img').find(':first-child').remove();
+            $('.img').append("<img src=\"" + data[currentIndex].img + '"' + ' \"height=450\"' + ' \"width=800\">');
+
+            $('.author').find(':first-child').remove();
+            $('.author').append('<h2>' + 'Author: ' + data[currentIndex].author + '</h2>');
+
+            $('.piece').find(':first-child').remove();
+            $('.piece').append('<h2>' + 'Piece: ' + data[currentIndex].piece + '</h2>');
+
+            $('.date').find(':first-child').remove();
+            $('.date').append('<h2>' + 'Date: ' + data[currentIndex].date.toString() + '</h2>');
+
+            $('.tracker').find(':first-child').remove();
+            $('.tracker').append('<h1>' + Number(currentIndex + 1) + '/' + Number(data.length) + '</h1>');
+          }
+        }
+      });
+    });
+  </script>
+</html>
