@@ -34,14 +34,17 @@
 
       .author {
         text-align: center;
+        display: none;
       }
 
       .piece {
         text-align: center;
+        display: none;
       }
 
       .date {
         text-align: center;
+        display: none;
       }
 
       .tracker {
@@ -241,6 +244,17 @@
       $(document).keydown(function(e) {
         // Left keypress
         if (e.keyCode == 37) { 
+          if (($('.author').is(":visible"))) {
+            $('.author').toggle();
+          }
+
+          if (($('.piece').is(":visible"))) {
+            $('.piece').toggle();
+          }
+
+          if (($('.date').is(":visible"))) {
+            $('.date').toggle();
+          }
           if (currentIndex != 0) {
             currentIndex -= 1;
             $('.img').find(':first-child').remove();
@@ -260,7 +274,18 @@
           }
         }
 
-        if (e.keyCode == 39) { 
+        if (e.keyCode == 39) {
+          if (($('.author').is(":visible"))) {
+            $('.author').toggle();
+          }
+
+          if (($('.piece').is(":visible"))) {
+            $('.piece').toggle();
+          }
+
+          if (($('.date').is(":visible"))) {
+            $('.date').toggle();
+          }
           if (currentIndex != 20) {
             currentIndex += 1;
             $('.img').find(':first-child').remove();
@@ -277,6 +302,20 @@
 
             $('.tracker').find(':first-child').remove();
             $('.tracker').append('<h1>' + Number(currentIndex + 1) + '/' + Number(data.length) + '</h1>');
+          }
+        }
+
+        if (e.keyCode == 40) {
+          if (!($('.author').is(":visible"))) {
+            $('.author').toggle();
+          }
+
+          if (!($('.piece').is(":visible"))) {
+            $('.piece').toggle();
+          }
+
+          if (!($('.date').is(":visible"))) {
+            $('.date').toggle();
           }
         }
       });
